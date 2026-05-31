@@ -444,6 +444,11 @@
   <video id="lbVideo" controls playsinline style="max-width:min(1000px,92vw);max-height:86vh;border-radius:18px;box-shadow:0 30px 80px rgba(0,0,0,.6);"></video>
 </div>
 
+<!-- AI smile endpoint.
+     • On Vercel / `npm start`: leave this empty (uses the built-in /api/smile).
+     • On GitHub Pages (static): deploy the API to Vercel and paste its URL below,
+       e.g. window.SMILE_API_BASE = "https://dentalclinic.vercel.app";  -->
+<script>window.SMILE_API_BASE = "";</script>
 <script src="smile.js"></script>
 <script src="app.js"></script>
 </body>

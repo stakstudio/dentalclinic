@@ -19,8 +19,12 @@
   const resultActions = document.getElementById('smileResultActions');
   if (!wrap || !img) return;
 
-  // Endpoint — relative so it works on Vercel (and `vercel dev`) without config.
-  const API_URL = '/api/smile';
+  // Endpoint. By default relative ('/api/smile') — works on Vercel / `npm start`.
+  // When the site is hosted on GitHub Pages (which can't run the function),
+  // set `window.SMILE_API_BASE = 'https://your-app.vercel.app'` in index.html
+  // and the AI calls will go there instead. No other code changes needed.
+  const API_BASE = (window.SMILE_API_BASE || '').replace(/\/$/, '');
+  const API_URL = API_BASE + '/api/smile';
   const MAX_DIM = 1024;   // downscale the upload to keep the request small & fast
 
   let beforeUrl = null;   // original photo (data URL)
@@ -139,6 +143,10 @@
       let payload = {};
       try { payload = await res.json(); } catch { /* non-JSON error */ }
 
+      // No backend at this URL (e.g. static GitHub Pages with API base unset).
+      if (res.status === 404) {
+        throw new Error('خدمة الذكاء الاصطناعي غير مُفعّلة على هذا الرابط بعد. تواصل مع العيادة لتجربتها.');
+      }
       if (!res.ok || !payload.image) {
         throw new Error(payload.error || 'تعذّر إنشاء النتيجة. حاول مرة أخرى.');
       }
