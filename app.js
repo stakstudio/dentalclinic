@@ -30,7 +30,7 @@
 
   if (seen || reduce) {
     // skip straight in
-    if (intro) { intro.style.display = 'none'; }
+    if (intro) { intro.style.display = 'none'; intro.classList.add('gone'); }
     if (curtain) { curtain.style.display = 'none'; }
     document.body.classList.remove('no-scroll');
     revealHero();
@@ -77,11 +77,27 @@
   /* ====================================================
      MOBILE MENU
      ==================================================== */
-  const mmenu = $('#mmenu');
-  function openMenu()  { mmenu.classList.add('open'); document.body.classList.add('no-scroll'); }
-  function closeMenu() { mmenu.classList.remove('open'); if (!intro || intro.classList.contains('gone')) document.body.classList.remove('no-scroll'); }
-  $('#burger').addEventListener('click', openMenu);
-  $('#mclose').addEventListener('click', closeMenu);
+  const mmenu  = $('#mmenu');
+  const burger = $('#burger');
+  function openMenu()  {
+    mmenu.classList.add('open');
+    burger.classList.add('open');
+    burger.setAttribute('aria-expanded', 'true');
+    document.body.classList.add('no-scroll', 'menu-open');
+  }
+  function closeMenu() {
+    mmenu.classList.remove('open');
+    burger.classList.remove('open');
+    burger.setAttribute('aria-expanded', 'false');
+    document.body.classList.remove('no-scroll', 'menu-open');
+  }
+  function toggleMenu() { mmenu.classList.contains('open') ? closeMenu() : openMenu(); }
+  burger.addEventListener('click', toggleMenu);
+  // tap the dark backdrop (outside the links) to close
+  mmenu.addEventListener('click', (e) => { if (e.target === mmenu) closeMenu(); });
+  // Escape closes; resizing up to desktop closes
+  document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && mmenu.classList.contains('open')) closeMenu(); });
+  window.addEventListener('resize', () => { if (window.innerWidth > 860 && mmenu.classList.contains('open')) closeMenu(); });
 
   /* ====================================================
      SCROLL REVEALS
