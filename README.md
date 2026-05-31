@@ -56,6 +56,27 @@ npm run deploy       # = "vercel --prod"
 After deploying, add the key in the Vercel dashboard:
 **Project → Settings → Environment Variables → `GEMINI_API_KEY`**, then redeploy.
 
+## Live on GitHub Pages
+
+The site is published at **https://stakstudio.github.io/dentalclinic/**
+(Settings → Pages → Deploy from branch `main` / root).
+
+⚠️ **GitHub Pages is static — it cannot run `/api/smile`.** The page and design work
+fully, but the AI **Generate** button needs a server. To turn the AI on while keeping
+the site on Pages:
+
+1. Deploy just the API to Vercel: `npm run deploy` (it serves `/api/smile`).
+2. In Vercel, set the `GEMINI_API_KEY` env var (your key from `.env`).
+3. In [`index.html`](index.html), set the endpoint to your Vercel URL:
+   ```html
+   <script>window.SMILE_API_BASE = "https://YOUR-APP.vercel.app";</script>
+   ```
+4. Commit & push — Pages redeploys automatically and the AI now works.
+
+(CORS is already enabled in the function, so the Pages origin can call the Vercel API.)
+The simpler alternative is to host the **whole** site on Vercel (`npm run deploy`), where
+`/api/smile` works with no extra config.
+
 ## Notes
 
 - **Cost:** each generation is one Gemini image call. Watch usage in Google AI Studio.
