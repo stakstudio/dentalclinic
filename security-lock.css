@@ -1,0 +1,567 @@
+/* ============================================================
+   Security Lock — Glassmorphism Access Gate
+   ============================================================ */
+
+#securityLock {
+  position: fixed;
+  inset: 0;
+  z-index: 10000;
+  background: 
+    radial-gradient(circle at 30% 20%, rgba(169, 188, 224, 0.15), transparent 50%),
+    radial-gradient(circle at 70% 80%, rgba(201, 151, 74, 0.12), transparent 50%),
+    rgba(27, 34, 54, 0.98);
+  backdrop-filter: blur(40px) saturate(1.2);
+  -webkit-backdrop-filter: blur(40px) saturate(1.2);
+  display: grid;
+  place-items: center;
+  padding: 20px;
+  overflow: hidden;
+  animation: lockFadeIn 0.6s cubic-bezier(0.19, 1, 0.22, 1);
+}
+
+#securityLock::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: 
+    repeating-linear-gradient(
+      0deg,
+      rgba(169, 188, 224, 0.03) 0px,
+      transparent 1px,
+      transparent 2px,
+      rgba(169, 188, 224, 0.03) 3px
+    ),
+    repeating-linear-gradient(
+      90deg,
+      rgba(169, 188, 224, 0.03) 0px,
+      transparent 1px,
+      transparent 2px,
+      rgba(169, 188, 224, 0.03) 3px
+    );
+  pointer-events: none;
+  opacity: 0.4;
+}
+
+#securityLock.unlocking {
+  animation: lockFadeOut 0.8s cubic-bezier(0.19, 1, 0.22, 1) forwards;
+}
+
+@keyframes lockFadeIn {
+  from {
+    opacity: 0;
+    backdrop-filter: blur(0px);
+    -webkit-backdrop-filter: blur(0px);
+  }
+  to {
+    opacity: 1;
+    backdrop-filter: blur(40px) saturate(1.2);
+    -webkit-backdrop-filter: blur(40px) saturate(1.2);
+  }
+}
+
+@keyframes lockFadeOut {
+  to {
+    opacity: 0;
+    backdrop-filter: blur(0px);
+    -webkit-backdrop-filter: blur(0px);
+  }
+}
+
+.security-orb {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(80px);
+  opacity: 0.6;
+  animation: orbFloat 8s ease-in-out infinite;
+}
+
+.security-orb.orb-1 {
+  width: 500px;
+  height: 500px;
+  background: radial-gradient(circle, rgba(169, 188, 224, 0.4), transparent 70%);
+  top: -100px;
+  right: -100px;
+  animation-delay: 0s;
+}
+
+.security-orb.orb-2 {
+  width: 400px;
+  height: 400px;
+  background: radial-gradient(circle, rgba(201, 151, 74, 0.3), transparent 70%);
+  bottom: -80px;
+  left: -80px;
+  animation-delay: 2s;
+}
+
+@keyframes orbFloat {
+  0%, 100% {
+    transform: translate(0, 0) scale(1);
+  }
+  33% {
+    transform: translate(30px, -30px) scale(1.1);
+  }
+  66% {
+    transform: translate(-20px, 20px) scale(0.95);
+  }
+}
+
+.security-gate {
+  position: relative;
+  z-index: 2;
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  border-radius: 34px;
+  padding: clamp(40px, 5vw, 64px) clamp(32px, 4vw, 56px);
+  max-width: 480px;
+  width: 100%;
+  box-shadow: 
+    0 30px 80px -20px rgba(15, 20, 36, 0.6),
+    inset 0 1px 0 rgba(255, 255, 255, 0.15),
+    0 0 0 1px rgba(169, 188, 224, 0.1);
+  backdrop-filter: blur(24px) saturate(1.3);
+  -webkit-backdrop-filter: blur(24px) saturate(1.3);
+  text-align: center;
+  animation: gateScaleIn 0.8s cubic-bezier(0.19, 1, 0.22, 1);
+  transform-origin: center;
+}
+
+#securityLock.unlocking .security-gate {
+  animation: gateScaleOut 0.6s cubic-bezier(0.19, 1, 0.22, 1) forwards;
+}
+
+@keyframes gateScaleIn {
+  from {
+    opacity: 0;
+    transform: scale(0.9) translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+}
+
+@keyframes gateScaleOut {
+  to {
+    opacity: 0;
+    transform: scale(0.95) translateY(-10px);
+  }
+}
+
+.security-icon {
+  width: 88px;
+  height: 88px;
+  margin: 0 auto 28px;
+  border-radius: 24px;
+  background: linear-gradient(140deg, rgba(169, 188, 224, 0.25), rgba(124, 146, 196, 0.35));
+  border: 1px solid rgba(169, 188, 224, 0.3);
+  display: grid;
+  place-items: center;
+  box-shadow: 
+    0 16px 40px -12px rgba(124, 146, 196, 0.4),
+    inset 0 1px 0 rgba(255, 255, 255, 0.2);
+  animation: iconPulse 3s ease-in-out infinite;
+}
+
+@keyframes iconPulse {
+  0%, 100% {
+    transform: scale(1);
+    box-shadow: 
+      0 16px 40px -12px rgba(124, 146, 196, 0.4),
+      inset 0 1px 0 rgba(255, 255, 255, 0.2);
+  }
+  50% {
+    transform: scale(1.05);
+    box-shadow: 
+      0 20px 50px -12px rgba(124, 146, 196, 0.6),
+      inset 0 1px 0 rgba(255, 255, 255, 0.3);
+  }
+}
+
+.security-icon svg {
+  width: 42px;
+  height: 42px;
+  stroke: rgba(255, 255, 255, 0.95);
+  stroke-width: 2;
+  fill: none;
+  filter: drop-shadow(0 2px 8px rgba(169, 188, 224, 0.3));
+}
+
+.security-gate h2 {
+  color: #fff;
+  font-family: 'El Messiri', serif;
+  font-size: clamp(26px, 4vw, 36px);
+  font-weight: 700;
+  margin-bottom: 12px;
+  text-shadow: 0 2px 16px rgba(0, 0, 0, 0.3);
+  letter-spacing: -0.02em;
+}
+
+.security-gate p {
+  color: rgba(255, 255, 255, 0.75);
+  font-size: clamp(15px, 2vw, 17px);
+  margin-bottom: 36px;
+  line-height: 1.6;
+}
+
+.demo-notice {
+  background: rgba(201, 151, 74, 0.12);
+  border: 1.5px solid rgba(201, 151, 74, 0.35);
+  border-radius: 18px;
+  padding: 20px 22px;
+  margin-bottom: 28px;
+  display: flex;
+  gap: 16px;
+  align-items: flex-start;
+  text-align: right;
+  animation: noticeGlow 3s ease-in-out infinite;
+}
+
+@keyframes noticeGlow {
+  0%, 100% {
+    box-shadow: 0 0 20px rgba(201, 151, 74, 0.1);
+  }
+  50% {
+    box-shadow: 0 0 30px rgba(201, 151, 74, 0.25);
+  }
+}
+
+.notice-icon {
+  flex-shrink: 0;
+  width: 28px;
+  height: 28px;
+  stroke: rgba(219, 174, 92, 0.95);
+  stroke-width: 2;
+  fill: none;
+  margin-top: 2px;
+}
+
+.notice-content {
+  flex: 1;
+}
+
+.notice-content strong {
+  display: block;
+  color: rgba(219, 174, 92, 1);
+  font-size: 15px;
+  font-weight: 700;
+  margin-bottom: 8px;
+  letter-spacing: 0.02em;
+}
+
+.notice-content p {
+  color: rgba(255, 255, 255, 0.85);
+  font-size: 13.5px;
+  line-height: 1.65;
+  margin: 0 0 6px 0;
+}
+
+.notice-content p:last-child {
+  margin-bottom: 0;
+}
+
+.pin-location-notice {
+  background: rgba(220, 38, 38, 0.15);
+  border: 2px solid rgba(239, 68, 68, 0.5);
+  border-radius: 16px;
+  padding: 18px 20px;
+  margin-bottom: 24px;
+  text-align: center;
+  animation: pinNoticeGlow 2s ease-in-out infinite;
+}
+
+@keyframes pinNoticeGlow {
+  0%, 100% {
+    box-shadow: 0 0 20px rgba(239, 68, 68, 0.2);
+    border-color: rgba(239, 68, 68, 0.5);
+  }
+  50% {
+    box-shadow: 0 0 30px rgba(239, 68, 68, 0.4);
+    border-color: rgba(239, 68, 68, 0.7);
+  }
+}
+
+.pin-location-notice strong {
+  display: block;
+  color: #ef4444;
+  font-size: 15px;
+  font-weight: 800;
+  line-height: 1.7;
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+}
+
+.pin-input-container {
+  margin-bottom: 32px;
+}
+
+.pin-input-label {
+  color: rgba(255, 255, 255, 0.65);
+  font-size: 14px;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  margin-bottom: 14px;
+  display: block;
+  text-transform: uppercase;
+}
+
+#pinInput {
+  width: 100%;
+  padding: 18px 24px;
+  font-family: 'Tajawal', sans-serif;
+  font-size: 20px;
+  font-weight: 600;
+  letter-spacing: 0.3em;
+  text-align: center;
+  color: #fff;
+  background: rgba(255, 255, 255, 0.06);
+  border: 2px solid rgba(169, 188, 224, 0.3);
+  border-radius: 18px;
+  outline: none;
+  transition: all 0.35s cubic-bezier(0.19, 1, 0.22, 1);
+  box-shadow: 
+    inset 0 2px 8px rgba(15, 20, 36, 0.3),
+    0 0 0 0 rgba(169, 188, 224, 0);
+}
+
+#pinInput::placeholder {
+  color: rgba(255, 255, 255, 0.35);
+  letter-spacing: 0.2em;
+}
+
+#pinInput:focus {
+  border-color: rgba(169, 188, 224, 0.8);
+  background: rgba(255, 255, 255, 0.1);
+  box-shadow: 
+    inset 0 2px 8px rgba(15, 20, 36, 0.2),
+    0 0 0 4px rgba(169, 188, 224, 0.15),
+    0 8px 24px -8px rgba(169, 188, 224, 0.5);
+  transform: translateY(-1px);
+}
+
+#pinInput.error {
+  animation: pinShake 0.5s cubic-bezier(0.36, 0.07, 0.19, 0.97);
+  border-color: rgba(235, 87, 87, 0.8);
+  background: rgba(235, 87, 87, 0.1);
+}
+
+@keyframes pinShake {
+  0%, 100% { transform: translateX(0); }
+  10%, 30%, 50%, 70%, 90% { transform: translateX(-8px); }
+  20%, 40%, 60%, 80% { transform: translateX(8px); }
+}
+
+.error-message {
+  color: rgba(255, 120, 120, 0.95);
+  font-size: 14px;
+  font-weight: 600;
+  margin-top: 12px;
+  min-height: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  opacity: 0;
+  transform: translateY(-4px);
+  transition: all 0.3s cubic-bezier(0.19, 1, 0.22, 1);
+}
+
+.error-message.show {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.error-message svg {
+  width: 16px;
+  height: 16px;
+  stroke: currentColor;
+  stroke-width: 2;
+  fill: none;
+}
+
+#unlockButton {
+  width: 100%;
+  padding: 17px 28px;
+  font-family: 'Tajawal', sans-serif;
+  font-size: 17px;
+  font-weight: 700;
+  color: rgba(27, 34, 54, 0.95);
+  background: linear-gradient(105deg, #DBAE5C, #F4DCA8 50%, #C9974A);
+  border: none;
+  border-radius: 999px;
+  cursor: pointer;
+  outline: none;
+  position: relative;
+  overflow: hidden;
+  box-shadow: 
+    0 16px 36px -10px rgba(201, 151, 74, 0.6),
+    inset 0 1px 0 rgba(255, 255, 255, 0.3);
+  transition: all 0.35s cubic-bezier(0.19, 1, 0.22, 1);
+}
+
+#unlockButton::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(105deg, transparent, rgba(255, 255, 255, 0.6), transparent);
+  transform: translateX(-100%);
+  transition: transform 0.6s cubic-bezier(0.19, 1, 0.22, 1);
+}
+
+#unlockButton:hover:not(:disabled) {
+  transform: translateY(-2px);
+  box-shadow: 
+    0 22px 44px -10px rgba(201, 151, 74, 0.8),
+    inset 0 1px 0 rgba(255, 255, 255, 0.4);
+}
+
+#unlockButton:hover:not(:disabled)::before {
+  transform: translateX(100%);
+}
+
+#unlockButton:active:not(:disabled) {
+  transform: translateY(0);
+}
+
+#unlockButton:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  transform: none;
+}
+
+#unlockButton.loading {
+  pointer-events: none;
+}
+
+#unlockButton.loading .button-content {
+  opacity: 0;
+}
+
+#unlockButton .button-spinner {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 22px;
+  height: 22px;
+  border: 2.5px solid rgba(27, 34, 54, 0.2);
+  border-top-color: rgba(27, 34, 54, 0.8);
+  border-radius: 50%;
+  animation: buttonSpin 0.7s linear infinite;
+  opacity: 0;
+}
+
+#unlockButton.loading .button-spinner {
+  opacity: 1;
+}
+
+@keyframes buttonSpin {
+  to { transform: translate(-50%, -50%) rotate(360deg); }
+}
+
+.security-footer {
+  margin-top: 28px;
+  padding-top: 24px;
+  border-top: 1px solid rgba(255, 255, 255, 0.12);
+}
+
+.security-footer p {
+  color: rgba(255, 255, 255, 0.45);
+  font-size: 13px;
+  margin: 0;
+  line-height: 1.6;
+}
+
+/* Responsive */
+@media (max-width: 560px) {
+  .security-gate {
+    padding: 36px 28px;
+    border-radius: 28px;
+  }
+  
+  .security-icon {
+    width: 72px;
+    height: 72px;
+    margin-bottom: 22px;
+  }
+  
+  .security-icon svg {
+    width: 36px;
+    height: 36px;
+  }
+  
+  .demo-notice {
+    padding: 16px 18px;
+    gap: 12px;
+  }
+  
+  .notice-icon {
+    width: 24px;
+    height: 24px;
+  }
+  
+  .notice-content strong {
+    font-size: 14px;
+  }
+  
+  .notice-content p {
+    font-size: 12.5px;
+  }
+  
+  .pin-location-notice {
+    padding: 14px 16px;
+    margin-bottom: 20px;
+  }
+  
+  .pin-location-notice strong {
+    font-size: 13.5px;
+  }
+  
+  #pinInput {
+    padding: 16px 20px;
+    font-size: 18px;
+  }
+  
+  #unlockButton {
+    padding: 15px 24px;
+    font-size: 16px;
+  }
+}
+
+@media (max-width: 380px) {
+  .security-gate {
+    padding: 32px 24px;
+  }
+  
+  .demo-notice {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    padding: 14px 16px;
+  }
+  
+  .pin-location-notice {
+    padding: 12px 14px;
+  }
+  
+  .pin-location-notice strong {
+    font-size: 12.5px;
+  }
+  
+  #pinInput {
+    font-size: 17px;
+    letter-spacing: 0.25em;
+  }
+}
+
+/* Accessibility - respect reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  #securityLock,
+  .security-gate,
+  .security-orb,
+  .security-icon,
+  #pinInput,
+  #unlockButton,
+  #unlockButton::before {
+    animation: none !important;
+    transition: opacity 0.2s !important;
+  }
+}
