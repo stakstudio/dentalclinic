@@ -28,16 +28,26 @@
     revealHero();
   }
 
-  if (seen || reduce) {
-    // skip straight in
-    if (intro) { intro.style.display = 'none'; intro.classList.add('gone'); }
-    if (curtain) { curtain.style.display = 'none'; }
-    document.body.classList.remove('no-scroll');
-    revealHero();
+  function startIntro() {
+    if (seen || reduce) {
+      // skip straight in
+      if (intro) { intro.style.display = 'none'; intro.classList.add('gone'); }
+      if (curtain) { curtain.style.display = 'none'; }
+      document.body.classList.remove('no-scroll');
+      revealHero();
+    } else {
+      document.body.classList.add('no-scroll');
+      setTimeout(endIntro, 3600);
+      skip.addEventListener('click', endIntro);
+    }
+  }
+
+  // If the security gate is up, hold the intro until it's unlocked — otherwise the
+  // loader plays hidden behind the lock and is already over by the time you unlock.
+  if (document.getElementById('securityLock')) {
+    document.addEventListener('site:unlock', startIntro, { once: true });
   } else {
-    document.body.classList.add('no-scroll');
-    setTimeout(endIntro, 3600);
-    skip.addEventListener('click', endIntro);
+    startIntro();
   }
 
   function revealHero() {

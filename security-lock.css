@@ -12,12 +12,18 @@
     rgba(27, 34, 54, 0.98);
   backdrop-filter: blur(40px) saturate(1.2);
   -webkit-backdrop-filter: blur(40px) saturate(1.2);
-  display: grid;
-  place-items: center;
+  display: flex;
   padding: 20px;
-  overflow: hidden;
+  overflow-y: auto;
+  overflow-x: hidden;
+  -webkit-overflow-scrolling: touch;
   animation: lockFadeIn 0.6s cubic-bezier(0.19, 1, 0.22, 1);
 }
+
+/* Hold the cinematic intro (and curtain) hidden until the gate is unlocked,
+   so the loader plays AFTER unlock instead of finishing behind the lock. */
+body.locked #intro,
+body.locked #curtain { display: none !important; }
 
 #securityLock::before {
   content: '';
@@ -108,6 +114,8 @@
 .security-gate {
   position: relative;
   z-index: 2;
+  margin: auto;
+  flex: 0 0 auto;
   background: rgba(255, 255, 255, 0.08);
   border: 1px solid rgba(255, 255, 255, 0.18);
   border-radius: 34px;
@@ -473,57 +481,69 @@
 /* Responsive */
 @media (max-width: 560px) {
   .security-gate {
-    padding: 36px 28px;
+    padding: 28px 24px;
     border-radius: 28px;
   }
-  
+
   .security-icon {
-    width: 72px;
-    height: 72px;
-    margin-bottom: 22px;
+    width: 62px;
+    height: 62px;
+    margin-bottom: 14px;
   }
-  
+
   .security-icon svg {
-    width: 36px;
-    height: 36px;
+    width: 30px;
+    height: 30px;
   }
-  
+
+  .security-gate h2 { font-size: 24px; margin-bottom: 8px; }
+  .security-gate p { font-size: 14px; margin-bottom: 16px; }
+
   .demo-notice {
-    padding: 16px 18px;
+    padding: 13px 15px;
     gap: 12px;
+    margin-bottom: 14px;
   }
-  
+
   .notice-icon {
-    width: 24px;
-    height: 24px;
+    width: 23px;
+    height: 23px;
   }
-  
+
   .notice-content strong {
     font-size: 14px;
+    margin-bottom: 5px;
   }
-  
+
   .notice-content p {
     font-size: 12.5px;
+    line-height: 1.55;
   }
-  
+
   .pin-location-notice {
-    padding: 14px 16px;
-    margin-bottom: 20px;
+    padding: 12px 15px;
+    margin-bottom: 14px;
   }
-  
+
   .pin-location-notice strong {
-    font-size: 13.5px;
+    font-size: 13px;
   }
-  
+
+  .pin-input-container { margin-bottom: 16px; }
+  .pin-input-label { margin-bottom: 9px; font-size: 13px; }
+
   #pinInput {
-    padding: 16px 20px;
+    padding: 15px 20px;
     font-size: 18px;
   }
-  
+
   #unlockButton {
     padding: 15px 24px;
     font-size: 16px;
   }
+
+  .security-footer { margin-top: 16px; padding-top: 14px; }
+  .security-footer p { font-size: 12px; }
 }
 
 @media (max-width: 380px) {

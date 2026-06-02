@@ -116,6 +116,7 @@
 
     document.body.insertAdjacentHTML('afterbegin', lockHTML);
     document.body.style.overflow = 'hidden';
+    document.body.classList.add('locked');
 
     // Get elements
     const lockScreen = document.getElementById('securityLock');
@@ -208,14 +209,17 @@
 
     function unlockWebsite() {
       const lockScreen = document.getElementById('securityLock');
+
+      // Reveal the cinematic intro beneath the gate and play it now, so the lock
+      // dissolves straight into the loader instead of the loader being long gone.
+      document.body.classList.remove('locked');
+      document.dispatchEvent(new Event('site:unlock'));
+
       lockScreen.classList.add('unlocking');
 
       setTimeout(() => {
         lockScreen.remove();
         document.body.style.overflow = '';
-        
-        // الموقع يستمر بشكل طبيعي بعد فتح القفل
-        // جميع الـ animations والـ intro سيعملون تلقائياً
       }, 800);
     }
 
@@ -268,6 +272,7 @@
 
     document.body.insertAdjacentHTML('afterbegin', lockHTML);
     document.body.style.overflow = 'hidden';
+    document.body.classList.add('locked');
 
     // Check every 30 seconds if lockout has expired
     const checkInterval = setInterval(() => {
